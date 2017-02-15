@@ -6,6 +6,7 @@
   "summary": "Puppet module for installing and configuring apache tika",
   "source": "https://github.com/silverstripe/puppet-tika",
   "project_page": "https://github.com/silverstripe/puppet-tika",
+  "dependencies": [],
   "requirements": [
     {
       "name": "puppet",
