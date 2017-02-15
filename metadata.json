@@ -1,0 +1,23 @@
+{
+  "name": "silverstripe-tika",
+  "version": "1.0.0",
+  "author": "SilverStripe Ltd",
+  "license": "BSD-3-Clause",
+  "summary": "Puppet module for installing and configuring apache tika",
+  "source": "https://github.com/silverstripe/puppet-tika",
+  "project_page": "https://github.com/silverstripe/puppet-tika",
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.0.0 < 5.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    }
+  ]
+}
