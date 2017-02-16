@@ -11,16 +11,26 @@ class tika::install inherits tika {
         mode    => '0755',
     }
 
+    $real_server_jar_url = "https://archive.apache.org/dist/tika/tika-server-${tika::params::version}.jar"
+    if $tika::params::server_jar_url != undef {
+        $real_server_jar_url = $tika::params::server_jar_url
+    }
+
     servicetools::install_file { '/opt/tika/tika-server.jar':
-        source  => $tika::params::source_server,
+        source  => $real_server_jar_url,
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
         require => [ File['tika_home_dir' ] ]
     }
 
+    $real_app_jar_url = "https://archive.apache.org/dist/tika/tika-app-${tika::params::version}.jar"
+    if $tika::params::app_jar_url != undef {
+        $real_app_jar_url = $tika::params::app_jar_url
+    }
+
     servicetools::install_file { '/opt/tika/tika-app.jar':
-        source  => $tika::params::source_app,
+        source  => $real_app_jar_url,
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
@@ -30,9 +40,7 @@ class tika::install inherits tika {
     file { 'tika_app_bin':
         ensure  => file,
         path    => '/usr/local/bin/tika',
-        require => [
-            File['/opt/tika/tika-app.jar'],
-        ],
+        require => [ File['/opt/tika/tika-app.jar'] ],
         owner   => root,
         group   => root,
         mode    => '0755',

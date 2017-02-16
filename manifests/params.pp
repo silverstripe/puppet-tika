@@ -1,8 +1,11 @@
 # @api private
-# This class handles the tika parameters. Avoid modifying private classes.
-class tika::params (
-    $source_server = 'https://s3-ap-southeast-2.amazonaws.com/ss-packages/tika-server-1.7.jar',
-    $source_app    = 'https://s3-ap-southeast-2.amazonaws.com/ss-packages/tika-app-1.7.jar',
-) {
-
+# This class handles the tika parameters.
+class tika::params {
+    $version = '1.14'
+    $server_jar_url = undef
+    $app_jar_url    = undef
+    $service_enable = true
+    $service_ensure = 'running'
+    $service_manage = true
+    $service_name = 'tika'
 }
