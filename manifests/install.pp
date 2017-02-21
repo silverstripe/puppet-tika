@@ -2,21 +2,27 @@
 # This class handles tika install. Avoid modifying private classes.
 class tika::install inherits tika {
 
+    if $tika::version == undef {
+        fail('tika::version is required')
+    }
+
     file { 'tika_home_dir':
         ensure  => directory,
-        path    => '/opt/tika',
+        path    => $tika::install_dir,
         recurse => true,
         owner   => 'root',
         group   => 'root',
         mode    => '0755',
     }
 
-    $real_server_jar_url = "https://archive.apache.org/dist/tika/tika-server-${tika::params::version}.jar"
-    if $tika::params::server_jar_url != undef {
-        $real_server_jar_url = $tika::params::server_jar_url
+    if $tika::server_jar_url != undef {
+        $real_server_jar_url = $tika::server_jar_url
+    } else {
+        $real_server_jar_url = "https://archive.apache.org/dist/tika/tika-server-${tika::version}.jar"
     }
 
-    servicetools::install_file { '/opt/tika/tika-server.jar':
+    servicetools::install_file { 'tika-server-binary':
+        target  => "${tika::install_dir}/tika-server-${tika::version}.jar",
         source  => $real_server_jar_url,
         owner   => 'root',
         group   => 'root',
@@ -24,12 +30,14 @@ class tika::install inherits tika {
         require => [ File['tika_home_dir' ] ]
     }
 
-    $real_app_jar_url = "https://archive.apache.org/dist/tika/tika-app-${tika::params::version}.jar"
-    if $tika::params::app_jar_url != undef {
-        $real_app_jar_url = $tika::params::app_jar_url
+    if $tika::app_jar_url != undef {
+        $real_app_jar_url = $tika::app_jar_url
+    } else {
+        $real_app_jar_url = "https://archive.apache.org/dist/tika/tika-app-${tika::version}.jar"
     }
 
-    servicetools::install_file { '/opt/tika/tika-app.jar':
+    servicetools::install_file { 'tika-app-binary':
+        target  => "${tika::install_dir}/tika-app-${tika::version}.jar",
         source  => $real_app_jar_url,
         owner   => 'root',
         group   => 'root',
@@ -40,10 +48,10 @@ class tika::install inherits tika {
     file { 'tika_app_bin':
         ensure  => file,
         path    => '/usr/local/bin/tika',
-        require => [ File['/opt/tika/tika-app.jar'] ],
+        require => Servicetools::Install_file['tika-app-binary'],
         owner   => root,
         group   => root,
         mode    => '0755',
-        content => '#!/usr/bin/env bash\nexec java -jar /opt/tika/tika-app.jar \'$@\'',
+        content => "#!/usr/bin/env bash\nexec java -jar /opt/tika/tika-app.jar \'$@\'",
     }
 }
