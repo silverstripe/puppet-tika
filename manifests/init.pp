@@ -2,7 +2,8 @@
 #
 # Main class, includes all other classes.
 #
-# @param version [String]] version of tika installed, used so that it's easy to upgrade tika version
+# @param version [String]] version of tika installed, used so that it's easy to upgrade tika version, note that the
+#                          service will need to be manually restarted for a new version
 # @param server_jar_url [Optional[String]] URL to the tika server software to file to install
 # @param app_jar_url [Optional[String]] URL to the tika app .jar file to install
 # @param install_dir [Optional[String]] base folder where the tika binaries will be installed
