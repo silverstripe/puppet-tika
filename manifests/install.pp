@@ -7,12 +7,11 @@ class tika::install inherits tika {
     }
 
     file { 'tika_home_dir':
-        ensure  => directory,
-        path    => $tika::install_dir,
-        recurse => true,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0755',
+        ensure => directory,
+        path   => $tika::install_dir,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
     }
 
     if $tika::server_jar_url != undef {
