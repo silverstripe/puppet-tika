@@ -51,6 +51,6 @@ class tika::install inherits tika {
         owner   => root,
         group   => root,
         mode    => '0755',
-        content => "#!/usr/bin/env bash\nexec java -jar /opt/tika/tika-app.jar \'$@\'",
+        content => "#!/usr/bin/env bash\nexec java -jar ${tika::install_dir}/tika-app-${tika::version}.jar \'$@\'",
     }
 }
